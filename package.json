@@ -2,8 +2,8 @@
   "name": "nightvision",
   "version": "0.0.1",
   "dependencies": {
-    "discord.js": "^11.1.0",
-    "electron": "^1.6.11",
+    "discord.js": "^11.2.1",
+    "electron": "^1.8.1",
     "jquery": "^3.2.1"
   },
   "main": "main.js",

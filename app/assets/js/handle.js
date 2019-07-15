@@ -9,7 +9,9 @@ const getset = require("./getset");
  * @see {@link http://api.jquery.com/jQuery/}
  */
 
-let at = {place: "mm"};
+let at = {
+    place: "mm"
+};
 
 function LOGIN(client) {
     jQuery("#login").removeClass("hidden");
@@ -78,7 +80,7 @@ function server_switch(event, client, g = null) {
 
     generate.roles(g.roles, s.find("#roles"));
     generate.channels(g.channels, s.find("#channels"));
-    generate.members(g.members, s.find("#members"));
+    g.generate = () => generate.members(g.members, s.find("#members"));
 
     return g
 }
@@ -110,9 +112,9 @@ function role_switch(event, currentserver) {
     let atEveryonePerms = new Discord
         .Permissions(
             currentserver
-                .roles
-                .get(currentserver.id)
-                .permissions
+            .roles
+            .get(currentserver.id)
+            .permissions
         )
         .serialize(false);
     let PO = new Discord
@@ -134,7 +136,9 @@ function role_switch(event, currentserver) {
     return r
 }
 
-let popupOpen = {state: false};
+let popupOpen = {
+    state: false
+};
 
 function PO(event, id, currentServer, off = false) {
     function P(event, id, currentServer) {
@@ -183,7 +187,8 @@ function PO(event, id, currentServer, off = false) {
             rolecode += make.profile_role(r.name, r.hex)
         }
 
-        let x = event.clientX + 20, y = event.clientY - 100;
+        let x = event.clientX + 20,
+            y = event.clientY - 100;
         if (y < 50) y = 50;
         let oc = ``;
         let SC = "";
@@ -226,4 +231,12 @@ ${user.presence.game ? '<div class="activity">Playing <strong>' + user.presence.
         PO_off()
 }
 
-module.exports = {server_switch, role_switch, main_menu, PO, LOGIN, popupOpen, at};
+module.exports = {
+    server_switch,
+    role_switch,
+    main_menu,
+    PO,
+    LOGIN,
+    popupOpen,
+    at
+};

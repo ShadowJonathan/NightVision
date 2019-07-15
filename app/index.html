@@ -1,44 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>NightVision</title>
+    <!--<script src="assets/js/discord.11.2.0.min.js"></script>-->
     <script src="assets/js/view.js"></script>
     <link href="assets/css/view.min.css" rel="stylesheet">
 </head>
+
 <body>
 
-<div id="login" class="hidden">
-    <div class="login_wrapper">
-        <span id="loginText">Please log in with your Discord token:</span><br>
-        <span class="input token" contenteditable="true"></span><br>
-        <div class="loginButton">GO!</div>
+    <div id="login" class="hidden">
+        <div class="login_wrapper">
+            <span id="loginText">Please log in with your Discord token:</span><br>
+            <span class="input token" contenteditable="true"></span><br>
+            <div class="loginButton">GO!</div>
+        </div>
+        <div class="spinnerCubes hidden">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
+        </div>
     </div>
-    <div class="spinnerCubes hidden">
-        <div class="cube1"></div>
-        <div class="cube2"></div>
-    </div>
-</div>
 
-<div id="servers">
-    <ul></ul>
-</div>
-
-<div id="server" class="hidden">
-    <div style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;font-size: 55px;">
-        <div id="serverIcon"></div>
-        <span class="name"></span>
+    <div id="servers">
+        <ul></ul>
     </div>
-    <div id="scroller_content">
-        <div id="scrollers">
-            <div>Roles:
-                <ul id="roles"></ul>
+
+    <div id="server" class="hidden">
+        <div style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;font-size: 55px;">
+            <div id="serverIcon"></div>
+            <span class="name"></span>
+        </div>
+        <div id="scroller_content">
+            <div id="scrollers">
+                <div>Roles:
+                    <ul id="roles"></ul>
+                </div>
+                <div>Channels:
+                    <ul id="channels"></ul>
+                </div>
+                <div>Members:
+                    <ul id="members">
+                        <div class="spinnerCubes">
+                            <div class="cube1"></div>
+                            <div class="cube2"></div>
+                        </div>
+                    </ul>
+                </div>
             </div>
-            <div>Channels:
-                <ul id="channels"></ul>
+        </div>
+        <div id="role" class="hidden">
+            <div class="title">
+                <span class="name"></span>
             </div>
-            <div>Members:
-                <ul id="members">
+            <div class="data">
+
+            </div>
+            <div>
+                Members with this role: (<span id="howmanyhaveroles">None</span>)
+                <ul id="roleMembers">
                     <div class="spinnerCubes">
                         <div class="cube1"></div>
                         <div class="cube2"></div>
@@ -47,23 +68,7 @@
             </div>
         </div>
     </div>
-    <div id="role" class="hidden">
-        <div class="title">
-            <span class="name"></span>
-        </div>
-        <div class="data">
-
-        </div>
-        <div>
-            Members with this role: (<span id="howmanyhaveroles">None</span>)
-        <ul id="roleMembers">
-            <div class="spinnerCubes">
-                <div class="cube1"></div>
-                <div class="cube2"></div>
-            </div>
-        </ul></div>
-    </div>
-</div>
-<div id="tooltips"></div>
+    <div id="tooltips"></div>
 </body>
+
 </html>

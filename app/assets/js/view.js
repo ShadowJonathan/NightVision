@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const Discord = require("discord.js")
 const client = new Discord.Client();
 const stringify = require('json-stringify-safe');
 const generate = require('./assets/js/generate');
@@ -6,10 +6,10 @@ const handle = require('./assets/js/handle');
 const utils = require('./assets/js/utils');
 const getset = require('./assets/js/getset');
 window.$ = window.jQuery = require('jquery');
-var servers;
-var currentserver;
-var currentrole;
-var roles;
+var servers, currentserver, currentrole, roles, T;
+
+var remote = require('electron').remote,
+    args = remote.getGlobal('sharedObject').argv.slice(2);
 
 $(function () {
     servers = $("#servers").find("ul");
@@ -60,8 +60,7 @@ Discord.Role.prototype.toJSON = function () {
     let hc = "";
     try {
         hc = this.hexColor
-    } catch (err) {
-    }
+    } catch (err) {}
     return {
         calculatedPosition: this.calculatedPosition,
         color: this.color,
@@ -100,23 +99,59 @@ Map.prototype.array = function () {
 };
 
 $(() => {
-    let T = getset.token();
+    if (!!args.length) {
+        T = args[0]
+    } else {
+        T = getset.token();
+    }
 
     if (!T)
         handle.LOGIN(client);
     else
         client.login(T)
-            .then(function () {
-                console.log("Logged in");
-                if (!servers)
-                    $(() => generate.servers(client.guilds, $("#servers").find("ul")));
-                else
-                    generate.servers(client.guilds, servers)
-            });
+        .then(function () {
+            console.log("Logged in");
+            if (!servers)
+                $(() => generate.servers(client.guilds, $("#servers").find("ul")));
+            else
+                generate.servers(client.guilds, servers)
+        });
 })
 let i = 0;
 
 function reloadcss() {
     i += 1;
     $('link')[0].href = `assets/css/view.min.css?q=${i}`
+}
+
+function getRoleUpdatesFor(id, server, until) {
+    return new Promise((r) => {
+        var last = null;
+        var all = [];
+
+        function f() {
+            client.guilds.get(server).fetchAuditLogs({
+                type: Discord.GuildAuditLogs.Actions.MEMBER_ROLE_UPDATE,
+                before: last
+            }).then(function (value) {
+                console.log("Grabbed audit logs before", last);
+                let a = value.entries.array();
+                a.sort((a, b) => b.createdAt - a.createdAt);
+                for (let e of a) {
+                    last = e;
+                    all.push(e)
+                }
+
+                if (last.createdAt.getDate() === until.getDate()) {
+                    f()
+                } else {
+                    all.sort((a, b) => b.createdAt - a.createdAt);
+                    all = all.filter((v) => v.target.id == id)
+                    r(all)
+                }
+            })
+        }
+
+        f()
+    })
 }
